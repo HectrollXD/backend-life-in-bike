@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: life-in-bike-docker-container
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=db_life_in_bike
+      - POSTGRES_USER=usr_life_in_bike
+      - POSTGRES_PASSWORD=pass_L1f3!1n!~81k3~
