@@ -97,11 +97,17 @@ ruta del proyecto y ejecutar los pasos correspondientes:
     # docker-compose up
     ```
 
-### Levantar el proyecto del apirest.
+### Levantar el proyecto
 Para esto, es necesario estar en la ruta raíz del proyecto y ejecutar el siguiente comando:
 ``` console
 $ ./mvnw spring-boot:run
 ```
+
+### Acceder a la documentación del api.
+En esta parte se podrá encontrar la documentación de absolutamente todos los endpoints del proyeco.
+Esto nos facilita la visualización de todos los endpoints disponibles, la forma en la que se
+utilizan, que atributos recibe y su retorno.   
+Para ello deberá de estar corriendo el proyecto y entrar al siguiente link [http://localhost:8080/swagger-ui.html](swagger-ui)
 
 ## Bajar el proyecto.
 ### Deshabilitar el contenedor de docker.
