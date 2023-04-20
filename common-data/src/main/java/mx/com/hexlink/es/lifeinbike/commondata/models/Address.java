@@ -1,7 +1,6 @@
 package mx.com.hexlink.es.lifeinbike.commondata.models;
 
 import org.apache.commons.text.WordUtils;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,14 +38,13 @@ public class Address extends ControlOfData{
     @Column(name = "addresReferences", length = 256)
     private String addresReferences;
 
-    @OneToOne(cascade = CascadeType.ALL)
+
+
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
     private Person person;
 
-    //
-
-
-
+  
 
     // Getters and Setters
     public String getStreetName() {

@@ -7,7 +7,6 @@ import mx.com.hexlink.es.lifeinbike.commondata.exceptions.DatabaseExeption;
 
 
 public interface IBasicServiceOperation <T, ID> {
-
     public T addNewRegister(T register) throws DatabaseExeption.SaveDataExeption;
 
     public List<T> getAllRegisters() throws DatabaseExeption.RetriveDataExeption;

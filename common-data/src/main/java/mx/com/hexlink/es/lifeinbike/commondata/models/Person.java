@@ -1,6 +1,6 @@
 package mx.com.hexlink.es.lifeinbike.commondata.models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import org.apache.commons.text.WordUtils;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -28,7 +28,7 @@ public class Person extends ControlOfData{
     private String secondLastname;
 
     @Column(name = "birth_date", columnDefinition = "timestamp")
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
 
     @Column(name = "telephone", length = 10)
     private String telephone;
@@ -38,7 +38,7 @@ public class Person extends ControlOfData{
     @OneToOne(mappedBy = "person")
     private Address address;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "account_id", referencedColumnName = "id", unique = true, nullable = false)
     private Account account;
 

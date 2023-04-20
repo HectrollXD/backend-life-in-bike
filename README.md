@@ -97,7 +97,16 @@ ruta del proyecto y ejecutar los pasos correspondientes:
     # docker-compose up
     ```
 
-### Levantar el proyecto
+### Correr los test
+El testeo es necesario para corroborar que si se tenga conexión a la base de datos desde el
+proyecto; así como realizar insersiónes y selecciones de datos de manera automática para comprobar
+que las tablas están creadas de manera adecuada y la base de datos está preparada para el proyecto.
+Para ejecutar los test será necesario realizar el siguiente comando:
+``` console
+$ ./mvnw test
+```
+
+### Correr el proyecto
 Para esto, es necesario estar en la ruta raíz del proyecto y ejecutar el siguiente comando:
 ``` console
 $ ./mvnw spring-boot:run
@@ -107,7 +116,7 @@ $ ./mvnw spring-boot:run
 En esta parte se podrá encontrar la documentación de absolutamente todos los endpoints del proyeco.
 Esto nos facilita la visualización de todos los endpoints disponibles, la forma en la que se
 utilizan, que atributos recibe y su retorno.   
-Para ello deberá de estar corriendo el proyecto y entrar al siguiente link [http://localhost:8080/swagger-ui.html](swagger-ui)
+Para ello deberá de estar corriendo el proyecto y entrar al siguiente link [swagger-ui](http://localhost:8080/swagger-ui.html)
 
 ## Bajar el proyecto.
 ### Deshabilitar el contenedor de docker.

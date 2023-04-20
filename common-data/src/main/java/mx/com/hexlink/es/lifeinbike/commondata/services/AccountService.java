@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import mx.com.hexlink.es.lifeinbike.commondata.exceptions.DatabaseExeption.*;
 import mx.com.hexlink.es.lifeinbike.commondata.models.Account;
 import mx.com.hexlink.es.lifeinbike.commondata.models.repositories.AccountRepository;
@@ -24,15 +25,16 @@ public class AccountService implements IBasicServiceOperation<Account, UUID>{
 
 
     @Override
+    @Transactional
     public Account addNewRegister(Account register) throws SaveDataExeption {
         LOG.info("Start service add new account.");
 
-        Account storedAccount = null;
+        Account account = null;
 
         try{
-            storedAccount = accountRepository.save(register);
+            account = accountRepository.save(register);
 
-            if( storedAccount == null ){
+            if( account == null ){
                 LOG.warn("The save method retrive a null object.");
             }
             else{
@@ -44,17 +46,19 @@ public class AccountService implements IBasicServiceOperation<Account, UUID>{
             throw new SaveDataExeption(ex.getMessage(), ex);
         }
 
-        return storedAccount;
+        return account;
     }
 
+    
     @Override
+    @Transactional(readOnly = true)
     public List<Account> getAllRegisters() throws RetriveDataExeption {
         LOG.info("Start service get all accounts.");
 
-        List<Account> allAccounts = null;
+        List<Account> account = null;
 
         try{
-            allAccounts = (List<Account>) accountRepository.findAll();
+            account = accountRepository.findAll();
             LOG.info("All accounts has retrived successfully.");
         }
         catch(Exception ex){
@@ -62,17 +66,19 @@ public class AccountService implements IBasicServiceOperation<Account, UUID>{
             throw new RetriveDataExeption(ex.getMessage(), ex);
         }
 
-        return allAccounts;
+        return account;
     }
 
+
     @Override
+    @Transactional(readOnly = true)
     public Optional<Account> findARegisterByID(UUID id) throws RetriveDataExeption {
         LOG.info("Start service get account by ID.");
 
-        Optional<Account> retrivedAccount = null;
+        Optional<Account> account = null;
 
         try{
-            retrivedAccount = accountRepository.findById(id);
+            account = accountRepository.findById(id);
             LOG.info("The account has retrived successfully.");
         }
         catch(Exception ex){
@@ -80,20 +86,22 @@ public class AccountService implements IBasicServiceOperation<Account, UUID>{
             throw new RetriveDataExeption(ex.getMessage(), ex);
         }
 
-        return retrivedAccount;
+        return account;
     }
 
+
     @Override
+    @Transactional
     public Account updateARegister(Account register) throws SaveDataExeption {
         LOG.info("Start service update account.");
 
-        Account storedAccount = null;
+        Account account = null;
 
         try{
             register.setLastModifed(LocalDateTime.now());
-            storedAccount = accountRepository.save(register);
+            account = accountRepository.save(register);
 
-            if( storedAccount == null ){
+            if( account == null ){
                 LOG.warn("The update method retrive a null object.");
             }
             else{
@@ -105,10 +113,12 @@ public class AccountService implements IBasicServiceOperation<Account, UUID>{
             throw new SaveDataExeption(ex.getMessage(), ex);
         }
 
-        return storedAccount;
+        return account;
     }
 
+
     @Override
+    @Transactional
     public void deleteARegisterByID(Account register) throws DeleteDataExeption {
         LOG.info("Start service delete account.");
 

@@ -14,8 +14,20 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class SecurityQuestion extends ControlOfData{
     @Column(
-        name = "question", nullable = false, unique = true,
-        updatable = false, length = 256, insertable = false
+        name = "question",
+        nullable = false,
+        unique = true,
+        updatable = false,
+        length = 256
     )
     private String question;
+
+
+    public SecurityQuestion(){}
+
+    public SecurityQuestion(String question){
+        super();
+        this.question = question.toUpperCase();
+    }
+
 }
