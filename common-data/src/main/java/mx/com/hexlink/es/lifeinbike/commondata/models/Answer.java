@@ -19,13 +19,23 @@ public class Answer extends ControlOfData{
     @Column(name = "answer", nullable = false, updatable = false, length = 256)
     private String answer;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
     private SecurityQuestion question;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private Account account;
+
+
+
+    public Answer(){}
+
+    public Answer(SecurityQuestion question, String answer, Account account){
+        this.question = question;
+        this.answer = answer.trim().toUpperCase();
+        this.account = account;
+    }
 
 
 

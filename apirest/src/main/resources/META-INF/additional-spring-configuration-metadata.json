@@ -1,19 +1,27 @@
-{
-    "properties": [
-        {
-            "name": "openapi.title",
-            "type": "java.lang.String",
-            "description": "Define el título de la documentación de openapi"
-        },
-        {
-            "name": "openapi.version",
-            "type": "java.lang.String",
-            "description": "Define la versión de la documentación de openapi"
-        },
-        {
-            "name": "openapi.description",
-            "type": "java.lang.String",
-            "description": "Define la descripción de la documentación de openapi"
-        }
-    ]
-}
+{"properties": [
+  {
+    "name": "openapi.title",
+    "type": "java.lang.String",
+    "description": "Define el título de la documentación de openapi"
+  },
+  {
+    "name": "openapi.version",
+    "type": "java.lang.String",
+    "description": "Define la versión de la documentación de openapi"
+  },
+  {
+    "name": "openapi.description",
+    "type": "java.lang.String",
+    "description": "Define la descripción de la documentación de openapi"
+  },
+  {
+    "name": "openapi.version",
+    "type": "java.lang.String",
+    "description": "A description for 'openapi.version'"
+  },
+  {
+    "name": "jwt.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'openapi.version'"
+  }
+]}

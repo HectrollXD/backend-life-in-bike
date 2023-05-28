@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import mx.com.hexlink.es.lifeinbike.commondata.exceptions.DatabaseExeption.DeleteDataExeption;
 import mx.com.hexlink.es.lifeinbike.commondata.exceptions.DatabaseExeption.RetriveDataExeption;
 import mx.com.hexlink.es.lifeinbike.commondata.exceptions.DatabaseExeption.SaveDataExeption;
@@ -23,9 +24,10 @@ public class AnswerService implements IBasicServiceOperation<Answer, UUID>{
     @Autowired
     private AnswerRepository answerRepository;
 
-    
+
 
     @Override
+    @Transactional
     public Answer addNewRegister(Answer register) throws SaveDataExeption {
         LOG.info("Start service add new answer.");
 
@@ -51,6 +53,7 @@ public class AnswerService implements IBasicServiceOperation<Answer, UUID>{
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<Answer> getAllRegisters() throws RetriveDataExeption {
         LOG.info("Start service get all answers.");
 
@@ -70,6 +73,7 @@ public class AnswerService implements IBasicServiceOperation<Answer, UUID>{
 
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Answer> findARegisterByID(UUID id) throws RetriveDataExeption {
         LOG.info("Start service get answer by ID.");
 
@@ -88,6 +92,7 @@ public class AnswerService implements IBasicServiceOperation<Answer, UUID>{
     }
 
     @Override
+    @Transactional
     public Answer updateARegister(Answer register) throws SaveDataExeption {
         LOG.info("Start service update answer.");
 
@@ -113,6 +118,7 @@ public class AnswerService implements IBasicServiceOperation<Answer, UUID>{
     }
 
     @Override
+    @Transactional
     public void deleteARegisterByID(Answer register) throws DeleteDataExeption {
         LOG.info("Start service delete answer.");
 
@@ -124,5 +130,29 @@ public class AnswerService implements IBasicServiceOperation<Answer, UUID>{
             LOG.error("An error was ocurred while try to delete answer.", ex);
             throw new DeleteDataExeption(ex.getMessage(), ex);
         }
+    }
+
+    @Transactional
+    public List<Answer> addMultipleRegisters(List<Answer> answersToAdd) throws SaveDataExeption{
+        LOG.info("Start service addMultipleRegisters.");
+
+        Iterable<Answer> answers;
+
+        try{
+            answers = (List<Answer>) answerRepository.saveAll(answersToAdd);
+
+            if( answers == null ){
+                LOG.warn("The save method retrive a null object.");
+            }
+            else{
+                LOG.info("The answers was addedd successfully.");
+            }
+        }
+        catch(Exception ex){
+            LOG.error("An error was ocurred while try to add all answers.", ex);
+            throw new SaveDataExeption(ex.getMessage(), ex);
+        }
+
+        return (List<Answer>) answers;
     }
 }

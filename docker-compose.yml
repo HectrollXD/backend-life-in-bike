@@ -1,12 +1,30 @@
 version: '3.9'
 
+volumes:
+  postgres_data:
+    driver: local
+
 services:
-  db:
-    container_name: life-in-bike-docker-container
+  postgres:
     image: postgres
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
-      - POSTGRES_DB=db_life_in_bike
-      - POSTGRES_USER=usr_life_in_bike
-      - POSTGRES_PASSWORD=pass_L1f3!1n!~81k3~
+      - POSTGRES_DB=${POSTGRES_DBNAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
+
+  keycloak:
+      image: quay.io/keycloak/keycloak:legacy
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: postgres
+        DB_DATABASE: ${POSTGRES_DBNAME}
+        DB_USER: ${POSTGRES_USER}
+        DB_PASSWORD: ${POSTGRES_PASS}
+        KEYCLOAK_USER: ${KEYCLOAK_USER}
+        KEYCLOAK_PASSWORD: ${KEYCLOAK_PASS}
+      ports:
+        - 8080:8080
+      depends_on:
+        - postgres

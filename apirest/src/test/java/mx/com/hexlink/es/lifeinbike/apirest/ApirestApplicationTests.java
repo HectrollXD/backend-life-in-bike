@@ -7,27 +7,41 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+//import org.springframework.test.context.ActiveProfiles;
+import mx.com.hexlink.es.lifeinbike.commondata.exceptions.DatabaseExeption.RetriveDataExeption;
 import mx.com.hexlink.es.lifeinbike.commondata.exceptions.DatabaseExeption.SaveDataExeption;
 import mx.com.hexlink.es.lifeinbike.commondata.models.Account;
 import mx.com.hexlink.es.lifeinbike.commondata.models.Address;
+import mx.com.hexlink.es.lifeinbike.commondata.models.Answer;
 import mx.com.hexlink.es.lifeinbike.commondata.models.Person;
+import mx.com.hexlink.es.lifeinbike.commondata.models.SecurityQuestion;
 import mx.com.hexlink.es.lifeinbike.commondata.services.AccountService;
 import mx.com.hexlink.es.lifeinbike.commondata.services.AddressService;
+import mx.com.hexlink.es.lifeinbike.commondata.services.AnswerService;
 import mx.com.hexlink.es.lifeinbike.commondata.services.PersonService;
+import mx.com.hexlink.es.lifeinbike.commondata.services.SecurityQuestionService;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ApirestApplicationTests {
 	@Autowired
 	private AccountService accountService;
+
+	@Autowired
+	private SecurityQuestionService securityQuestionService;
+
+	@Autowired
+	private AnswerService answerService;
 	
 	@Autowired
 	private PersonService personService;
@@ -42,19 +56,31 @@ class ApirestApplicationTests {
 	// Test to add new account
 	@Test
 	@Order(1)
-	public void testToAddNewAccount() throws SaveDataExeption{
+	public void testToAddNewAccount() throws SaveDataExeption, RetriveDataExeption{
 		Account accountToAdd = new Account();
-
-		accountToAdd.setUsername("HectrollXD");
-		accountToAdd.setEmail("hector.rmtnez89@gmail.com");
-		accountToAdd.setPassword("faltaEncriptarContrasenia");
 
 		account = accountService.addNewRegister(accountToAdd);
 
 		assertThat(account).isNotNull();
-		assertThat(account.getUsername()).isNotEmpty();
-		assertThat(account.getEmail()).isNotEmpty();
-		assertThat(account.getPassword()).isNotEmpty();
+
+		List<SecurityQuestion> questions = securityQuestionService.getAllRegisters();
+
+		assertThat(questions).isNotNull();
+		assertThat(questions).isNotEmpty();
+
+		List<Answer> answersToAdd = new ArrayList<>();
+
+		answersToAdd.add(new Answer(questions.get(0), "pipo", account));
+		answersToAdd.add(new Answer(questions.get(1), "pancho", account));
+		answersToAdd.add(new Answer(questions.get(4), "chiles rellenos", account));
+
+		List<Answer> answersAddedd = new ArrayList<>(
+			answerService.addMultipleRegisters(answersToAdd)
+		);
+
+		assertThat(answersAddedd).isNotNull();
+		assertThat(answersAddedd).isNotEmpty();
+		assertTrue(answersAddedd.stream().anyMatch(answer -> answer.getAccount().equals(account)));
 	}
 
 
